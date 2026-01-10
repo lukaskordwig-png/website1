@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lukas Kordwig – Freier Tonmeister</title>
+  <!-- Modernes, schlichtes Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Allgemeine Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', Arial, sans-serif; scroll-behavior: smooth; color: #fff; }
+    section { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; padding: 2rem; scroll-snap-align: start; }
+    .container { max-width: 1000px; width: 100%; position: relative; z-index: 1; }
+
+    /* Scroll Snap */
+    html { scroll-snap-type: y mandatory; overflow-y: scroll; }
+
+    /* Fixed background image (visible unblurred on Hero, blurred from "about" on) */
+    .bg-image {
+      position: fixed;
+      inset: 0;
+      background-image: url('images/20250721_MD_4000px-80.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: -2;
+      pointer-events: none;
+      will-change: filter;
+      transition: filter 0.45s ease;
+      filter: none; /* start unblurred */
+    }
+    .bg-image.blurred {
+      filter: blur(8px) saturate(0.95) contrast(0.9);
+    }
+
+    /* Remove per-section background pseudo-elements (we use single fixed bg) */
+    section::before { display: none !important; }
+
+    /* Sections: translucent panels so background remains visible */
+    section {
+      background-color: rgba(0,0,0,0.25); /* leicht dunkler, bleibt transparent over bg */
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      color: #fff;
+    }
+
+    /* Hero: clear view (no blur) */
+    #hero { text-align: center; flex-direction: column; background-color: rgba(0,0,0,0.08); }
+
+    /* Über mich + weitere Abschnitte: bleiben translucent; blur startet via JS on scroll */
+    #about, #services, #drone, #equipment, #contact { text-align: center; }
+    /* Referenzen zentrieren */
+    #references { text-align: center; }
+
+    /* Typografie */
+    #hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    #hero p { font-size: 1.5rem; max-width: 700px; margin: 0 auto; }
+    #about p { font-size: 1.2rem; line-height: 1.6; max-width: 700px; margin: 0 auto; }
+    #services h2 { margin-bottom: 2rem; }
+    .service-block { margin-bottom: 1.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .service-block h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    #drone h2 { margin-bottom: 1rem; }
+    #drone p, #contact p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+    #equipment h2 { margin-bottom: 2rem; }
+    .equipment-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 4rem; }
+    .equipment-block { flex: 1 1 250px; margin-top: 0; transition: transform 0.3s; }
+    .equipment-block:nth-child(1) { transform: translateY(0px); }
+    .equipment-block:nth-child(2) { transform: translateY(20px); }
+    .equipment-block:nth-child(3) { transform: translateY(10px); }
+    .equipment-block h3 { margin-bottom: 1rem; font-size: 1.2rem; }
+    .equipment-block ul { list-style: none; padding-left: 0; line-height: 1.5; }
+
+    /* Footer */
+    footer { background-color: rgba(0,0,0,0.35); text-align: center; padding: 1rem; font-size: 0.9rem; color: #fff; }
+
+    /* Link color: white */
+    a, a:link, a:visited {
+      color: #fff;
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+      opacity: 0.95;
+    }
+
+    /* Spacer für kontrollierten Abstand */
+    .spacer { height: 2rem; } 
+
+    /* Logo fixed oben-links, nicht vom Hintergrund-Blur betroffen */
+    .site-logo{
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      width: 140px;
+      height: auto;
+      pointer-events: none;
+      z-index: 4; /* über .container (z-index:1) und bg-image (z-index:-2) */
+      opacity: 0.98;
+    }
+
+    @media (max-width: 768px) {
+      #hero h1 { font-size: 2.2rem; }
+      #hero p { font-size: 1.2rem; }
+      .equipment-grid { flex-direction: column; gap: 2rem; }
+      .equipment-block { transform: translateY(0); }
+      .spacer { height: 1.2rem; }
+      .site-logo{
+        width: 90px;
+        top: 0.6rem;
+        left: 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <!-- Fixed background image element -->
+    <div class="bg-image" aria-hidden="true"></div>
+
+    <!-- Logo: bleibt scharf und immer oben links -->
+    <img src="images/LOGOwhite.png" alt="" class="site-logo" aria-hidden="true">
+
+    <!-- Hero -->
+    <section id="hero">
+      <div class="container">
+        <h1>Erfahrung. Präzision. Sound.</h1>
+        <p>Professionelle Tonaufnahme für Film, TV & Werbung</p>
+      </div>
+    </section>
+
+  <!-- Über mich -->
+  <section id="about">
+    <div class="container">
+      <p>Ich bin freier Tonmeister mit über 15 Jahren Erfahrung in TV-, Film-, Werbe- und Imageproduktionen. 
+      Als Location-Soundrecordist und Studio-Tontechniker begleite ich Projekte von der Tonaufnahme bis zur finalen Mischung. 
+      Mein Sitz ist in Nürnberg, ich arbeite deutschlandweit für Produktionsfirmen, Agenturen und Sender. 
+      (Zertifizierter Drohnenpilot für optionale Luftaufnahmen.)</p>
+    </div>
+  </section>
+
+  <!-- Leistungen -->
+  <section id="services">
+    <div class="container">
+      <h2>Leistungen</h2>
+      <div class="service-block">
+        <h3>TV, Film & Set-Ton</h3>
+        <p>Tonaufnahme am Set für TV-, Film-, Werbe- und Imageproduktionen. Saubere Dialoge, O-Ton, zuverlässige Zusammenarbeit mit Regie & Kamera – auch unter Zeitdruck.</p>
+      </div>
+      <div class="service-block">
+        <h3>Podcasts & Livestreams</h3>
+        <p>Technische Betreuung von Podcasts und Livestreams, vor Ort oder im Studio. Stabile Signalketten, klare Sprache, sendefähiger Sound.</p>
+      </div>
+      <div class="service-block">
+        <h3>Studio & Postproduktion</h3>
+        <p>Sprachaufnahmen, Editing und Mischung im Studio. Technischer Feinschliff, klangliche Optimierung und kreative Nachbearbeitung.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Drohne -->
+  <section id="drone">
+    <div class="container">
+      <h2>Drohnenaufnahmen</h2>
+      <p>Professionelle Luftaufnahmen für Film-, Werbe- und Imageproduktionen. Alle erforderlichen Drohnenführerscheine vorhanden – sicherer und kreativer Einsatz.</p>
+    </div>
+  </section>
+
+  <!-- Equipment -->
+  <section id="equipment">
+    <div class="container">
+      <h2>Equipment</h2>
+      <div class="equipment-grid">
+        <div class="equipment-block">
+          <h3>Mikrofone</h3>
+          <ul>
+            <li>Sennheiser MKH 50</li>
+            <li>DPA 4061</li>
+            <li>VT 506</li>
+            <li>MKE 2-4</li>
+        </ul>
+        </div>
+        <div class="equipment-block">
+          <h3>Recorder/Funk</h3>
+          <ul>
+            <li>Sound Devices MixPre 10 II</li>
+            <li>Zoom F8</li>
+            <li>Zoom H6</li>
+            <li>Wisycom MCR 54/42, MTP41s/40</li>
+            <li>Sennheiser G3</li>
+            <li>IFB Systeme</li>
+            <li>Tentacle Sync</li>
+          </ul>
+        </div>
+        <div class="equipment-block">
+          <h3>Drohne</h3>
+          <ul>
+            <li>DJI Mavic 2</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Referenzen -->
+  <section id="references">
+    <div class="container">
+      <h2>Referenzen</h2>
+
+      <div class="spacer" aria-hidden="true"></div>
+
+      <p><a href="https://www.crew-united.com/de/Lukas-Kordwig_392818.html#!searchterm=lukas%20Kordwig" target="_blank" rel="noopener">CREW‑UNITED</a></p>
+      <p><a href="https://www.imdb.com/de/name/nm5356307/?ref_=nv_sr_srsg_0_tt_0_nm_1_in_0_q_lukas%2520kordwig" target="_blank" rel="noopener">IMDb</a></p>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section id="contact">
+    <div class="container">
+      <h2>Kontakt</h2>
+      <p>Bereit für Ihr Projekt? Kontaktieren Sie mich für ein individuelles Angebot!</p>
+
+      <div class="spacer" aria-hidden="true"></div>
+
+      <p>[e-mail] <a href="mailto:lukaskordwig@gmx.de">lukaskordwig@gmx.de</a></p>
+      <p>[Telefon] <a href="tel:+4915117202550">+49 (0) 1511 7202550</a></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Lukas Kordwig – Freier Tonmeister</p>
+    <p>Maxplatz 28, 90403 Nürnberg</p>
+  </footer>
+
+  <!-- Script: blur background once hero leaves view (ab Abschnitt "Über mich") -->
+  <script>
+    (function(){
+      const bg = document.querySelector('.bg-image');
+      const hero = document.getElementById('hero');
+      const about = document.getElementById('about');
+
+      if(!bg || !hero || !about) return;
+
+      // Ensure initial state: unblurred while hero is visible
+      bg.classList.remove('blurred');
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            // when "about" is visible -> blur background
+            bg.classList.add('blurred');
+          } else {
+            // when "about" not visible (i.e. back to hero) -> remove blur
+            // we check if hero is mostly visible
+            const heroRect = hero.getBoundingClientRect();
+            const heroVisible = heroRect.top < window.innerHeight && heroRect.bottom > 0;
+            if(heroVisible) bg.classList.remove('blurred');
+          }
+        });
+      }, { threshold: 0.35 });
+
+      obs.observe(about);
+      
+      // also handle direct jumps / load position
+      window.addEventListener('load', () => {
+        const aboutRect = about.getBoundingClientRect();
+        if(aboutRect.top <= window.innerHeight * 0.65) bg.classList.add('blurred');
+      }, { once: true });
+    })();
+  </script>
+
+</body>
+</html>
