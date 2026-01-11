@@ -3,73 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Freier Tonmeister aus Nürnberg mit über 15 Jahren Erfahrung in Film, TV, Werbung, Podcasts und Livestreams. Professioneller Set- und Studio-Sound.">
+  <meta name="author" content="Lukas Kordwig">
   <title>Lukas Kordwig – Freier Tonmeister</title>
   <!-- Modernes, schlichtes Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     /* Allgemeine Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', Arial, sans-serif; scroll-behavior: smooth; color: #fff; }
-    section { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; padding: 2rem; scroll-snap-align: start; }
+    body { font-family: 'Inter', Arial, sans-serif; color: #fff; background-color: #000; } /* black base prevents bright halo at edges */
+
+    section { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; padding: 2rem; scroll-snap-align: start; scroll-snap-stop: always; }
     .container { max-width: 1000px; width: 100%; position: relative; z-index: 1; }
 
-    /* Scroll Snap */
-    html { scroll-snap-type: y mandatory; overflow-y: scroll; }
+    /* Scroll Snap: proximity mode for mobile-friendly snapping */
+    html, body { height: 100%; }
+    html { scroll-snap-type: y proximity; }
 
     /* Fixed background image (visible unblurred on Hero, blurred from "about" on) */
     .bg-image {
       position: fixed;
       inset: 0;
-      background-image: url('Images/20250721_MD_4000px-80.jpg');
+      background-image: url('images/20250721_MD_4000px-80.jpg');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
       z-index: -2;
       pointer-events: none;
-      will-change: filter;
-      transition: filter 0.45s ease;
+      will-change: transform, filter;
+      transition: filter 0.45s ease, transform 0.6s cubic-bezier(.22,.9,.3,1);
+      transform: scale(1); /* keep image centered */
       filter: none; /* start unblurred */
     }
     .bg-image.blurred {
-      filter: blur(8px) saturate(0.95) contrast(0.9);
+      /* scale up slightly when blurring so the blurred edges don't sample the page background */
+      filter: blur(8px) saturate(0.95) contrast(0.9) brightness(0.8);
+      transform: scale(1.03);
     }
 
     /* Remove per-section background pseudo-elements (we use single fixed bg) */
     section::before { display: none !important; }
 
-    /* Sections: translucent panels so background remains visible */
+    /* Fixed overlay (nicht an sections gebunden) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.35);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Sections: transparent, damit fixed overlay sichtbar bleibt */
     section {
-      background-color: rgba(0,0,0,0.25); /* leicht dunkler, bleibt transparent over bg */
+      background-color: transparent; /* nicht mehr rgba(...) */
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       color: #fff;
+      position: relative;
     }
 
     /* Hero: clear view (no blur) */
-    #hero { text-align: center; flex-direction: column; background-color: rgba(0,0,0,0.08); }
+    #hero { text-align: center; flex-direction: column; }
 
-    /* Über mich + weitere Abschnitte: bleiben translucent; blur startet via JS on scroll */
+    /* Über mich + weitere Abschnitte */
     #about, #services, #drone, #equipment, #contact { text-align: center; }
-    /* Referenzen zentrieren */
     #references { text-align: center; }
 
     /* Typografie */
-    #hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-    #hero p { font-size: 1.5rem; max-width: 700px; margin: 0 auto; }
-    #about p { font-size: 1.2rem; line-height: 1.6; max-width: 700px; margin: 0 auto; }
-    #services h2 { margin-bottom: 2rem; }
+    #hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    #hero p { font-size: 1.5rem; max-width: 700px; margin: 0 auto; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    #about p { font-size: 1.2rem; line-height: 1.6; max-width: 700px; margin: 0 auto; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    #services h2 { margin-bottom: 2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
     .service-block { margin-bottom: 1.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
-    .service-block h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    #drone h2 { margin-bottom: 1rem; }
-    #drone p, #contact p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
-    #equipment h2 { margin-bottom: 2rem; }
+    .service-block h3 { font-size: 1.5rem; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    #drone h2 { margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    #drone p, #contact p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    #equipment h2 { margin-bottom: 2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
     .equipment-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 4rem; }
     .equipment-block { flex: 1 1 250px; margin-top: 0; transition: transform 0.3s; }
     .equipment-block:nth-child(1) { transform: translateY(0px); }
     .equipment-block:nth-child(2) { transform: translateY(20px); }
     .equipment-block:nth-child(3) { transform: translateY(10px); }
-    .equipment-block h3 { margin-bottom: 1rem; font-size: 1.2rem; }
-    .equipment-block ul { list-style: none; padding-left: 0; line-height: 1.5; }
+    .equipment-block h3 { margin-bottom: 1rem; font-size: 1.2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    .equipment-block ul { list-style: none; padding-left: 0; line-height: 1.5; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
 
     /* Footer */
     footer { background-color: rgba(0,0,0,0.35); text-align: center; padding: 1rem; font-size: 0.9rem; color: #fff; }
@@ -99,6 +116,34 @@
       opacity: 0.98;
     }
 
+    /* Language toggle button: fixed oben-rechts, unabhängig vom Blur */
+    .language-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 50px;
+      height: 50px;
+      background-color: transparent;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      z-index: 4;
+      transition: all 0.3s ease;
+      pointer-events: all;
+      padding: 0;
+    }
+    .language-toggle:hover {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    .language-toggle:active {
+      transform: scale(0.95);
+    }
+
     @media (max-width: 768px) {
       #hero h1 { font-size: 2.2rem; }
       #hero p { font-size: 1.2rem; }
@@ -110,6 +155,13 @@
         top: 0.6rem;
         left: 0.6rem;
       }
+      .language-toggle {
+        width: 45px;
+        height: 45px;
+        top: 0.6rem;
+        right: 0.6rem;
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
@@ -119,41 +171,44 @@
     <div class="bg-image" aria-hidden="true"></div>
 
     <!-- Logo: bleibt scharf und immer oben links -->
-    <img src="Images/LOGOwhite.png" alt="" class="site-logo" aria-hidden="true">
+    <img src="images/LOGOwhite.png" alt="" class="site-logo" aria-hidden="true">
+
+    <!-- Language toggle button: oben-rechts, unabhängig vom Blur -->
+    <button class="language-toggle" id="langToggle" title="Toggle language">🇬🇧</button>
 
     <!-- Hero -->
     <section id="hero">
       <div class="container">
-        <h1>Erfahrung. Präzision. Sound.</h1>
-        <p>Professionelle Tonaufnahme für Film, TV & Werbung</p>
+        <h1 data-de="Erfahrung. Präzision. Ton." data-en="Experience. Precision. Sound.">Erfahrung. Präzision. Sound.</h1>
+        <p data-de="Professionelle Tonaufnahme für Film, TV & Werbung" data-en="Professional audio recording for film, TV & advertising">Professionelle Tonaufnahme für Film, TV & Werbung</p>
       </div>
     </section>
 
   <!-- Über mich -->
   <section id="about">
     <div class="container">
-      <p>Ich bin freier Tonmeister mit über 15 Jahren Erfahrung in TV-, Film-, Werbe- und Imageproduktionen. 
+      <p data-de="Ich bin freier Tonmeister mit über 15 Jahren Erfahrung in TV-, Film-, Werbe- und Imageproduktionen. Als Location-Soundrecordist und Studio-Tontechniker begleite ich Projekte von der Tonaufnahme bis zur finalen Mischung. Mein Sitz ist in Nürnberg, ich arbeite deutschlandweit für Produktionsfirmen, Agenturen und Sender. Ausserdem auch als Zertifizierter Drohnenpilot für optionale Luftaufnahmen." data-en="I am a freelance sound engineer with over 15 years of experience in TV, film, advertising and corporate productions. As a location sound recordist and studio sound technician, I support projects from audio recording through final mixing. Based in Nuremberg, I work throughout Germany for production companies, agencies and broadcasters. Also as a certified drone pilot for optional aerial recordings.">Ich bin freier Tonmeister mit über 15 Jahren Erfahrung in TV-, Film-, Werbe- und Imageproduktionen. 
       Als Location-Soundrecordist und Studio-Tontechniker begleite ich Projekte von der Tonaufnahme bis zur finalen Mischung. 
       Mein Sitz ist in Nürnberg, ich arbeite deutschlandweit für Produktionsfirmen, Agenturen und Sender. 
-      (Zertifizierter Drohnenpilot für optionale Luftaufnahmen.)</p>
+      Ausserdem auch als Zertifizierter Drohnenpilot für optionale Luftaufnahmen.</p>
     </div>
   </section>
 
   <!-- Leistungen -->
   <section id="services">
     <div class="container">
-      <h2>Leistungen</h2>
+      <h2 data-de="Leistungen" data-en="Services">Leistungen</h2>
       <div class="service-block">
-        <h3>TV, Film & Set-Ton</h3>
-        <p>Tonaufnahme am Set für TV-, Film-, Werbe- und Imageproduktionen. Saubere Dialoge, O-Ton, zuverlässige Zusammenarbeit mit Regie & Kamera – auch unter Zeitdruck.</p>
+        <h3 data-de="TV, Film & Set-Ton" data-en="TV, Film & Set Audio">TV, Film & Set-Ton</h3>
+        <p data-de="Tonaufnahme am Set für TV-, Film-, Werbe- und Imageproduktionen. Saubere Dialoge, O-Ton, zuverlässige Zusammenarbeit mit Regie & Kamera – auch unter Zeitdruck." data-en="Audio recording on set for TV, film, advertising and corporate productions. Clean dialogue, original sound, reliable collaboration with directors & camera teams – even under time pressure.">Tonaufnahme am Set für TV-, Film-, Werbe- und Imageproduktionen. Saubere Dialoge, O-Ton, zuverlässige Zusammenarbeit mit Regie & Kamera – auch unter Zeitdruck.</p>
       </div>
       <div class="service-block">
-        <h3>Podcasts & Livestreams</h3>
-        <p>Technische Betreuung von Podcasts und Livestreams, vor Ort oder im Studio. Stabile Signalketten, klare Sprache, sendefähiger Sound.</p>
+        <h3 data-de="Podcasts & Livestreams" data-en="Podcasts & Livestreams">Podcasts & Livestreams</h3>
+        <p data-de="Technische Betreuung von Podcasts und Livestreams, vor Ort oder im Studio. Stabile Signalketten, klare Sprache, sendefähiger Sound." data-en="Technical support for podcasts and livestreams, on-site or in studio. Stable signal chains, clear speech, broadcast-ready sound.">Technische Betreuung von Podcasts und Livestreams, vor Ort oder im Studio. Stabile Signalketten, klare Sprache, sendefähiger Sound.</p>
       </div>
       <div class="service-block">
-        <h3>Studio & Postproduktion</h3>
-        <p>Sprachaufnahmen, Editing und Mischung im Studio. Technischer Feinschliff, klangliche Optimierung und kreative Nachbearbeitung.</p>
+        <h3 data-de="Studio & Postproduktion" data-en="Studio & Post-Production">Studio & Postproduktion</h3>
+        <p data-de="Sprachaufnahmen, Editing und Mischung im Studio. Technischer Feinschliff, klangliche Optimierung und kreative Nachbearbeitung." data-en="Voice recordings, editing and mixing in studio. Technical polish, sonic optimization and creative post-production.">Sprachaufnahmen, Editing und Mischung im Studio. Technischer Feinschliff, klangliche Optimierung und kreative Nachbearbeitung.</p>
       </div>
     </div>
   </section>
@@ -161,18 +216,18 @@
   <!-- Drohne -->
   <section id="drone">
     <div class="container">
-      <h2>Drohnenaufnahmen</h2>
-      <p>Professionelle Luftaufnahmen für Film-, Werbe- und Imageproduktionen. Alle erforderlichen Drohnenführerscheine vorhanden – sicherer und kreativer Einsatz.</p>
+      <h2 data-de="Drohnenaufnahmen" data-en="Drone Footage">Drohnenaufnahmen</h2>
+      <p data-de="Professionelle Luftaufnahmen für Film-, Werbe- und Imageproduktionen. Alle erforderlichen Drohnenführerscheine vorhanden – sicherer und kreativer Einsatz." data-en="Professional aerial footage for film, advertising and corporate productions. All required drone licenses in place – safe and creative deployment.">Professionelle Luftaufnahmen für Film-, Werbe- und Imageproduktionen. Alle erforderlichen Drohnenführerscheine vorhanden – sicherer und kreativer Einsatz.</p>
     </div>
   </section>
 
   <!-- Equipment -->
   <section id="equipment">
     <div class="container">
-      <h2>Equipment</h2>
+      <h2 data-de="Equipment" data-en="Equipment">Equipment</h2>
       <div class="equipment-grid">
         <div class="equipment-block">
-          <h3>Mikrofone</h3>
+          <h3 data-de="Mikrofone" data-en="Microphones">Mikrofone</h3>
           <ul>
             <li>Sennheiser MKH 50</li>
             <li>DPA 4061</li>
@@ -181,7 +236,7 @@
         </ul>
         </div>
         <div class="equipment-block">
-          <h3>Recorder/Funk</h3>
+          <h3 data-de="Recorder/Funk" data-en="Recorders/Wireless">Recorder/Funk</h3>
           <ul>
             <li>Sound Devices MixPre 10 II</li>
             <li>Zoom F8</li>
@@ -193,9 +248,9 @@
           </ul>
         </div>
         <div class="equipment-block">
-          <h3>Drohne</h3>
+          <h3 data-de="Drohne" data-en="Drone">Drohne</h3>
           <ul>
-            <li>DJI Mavic 2</li>
+            <li>DJI Mavic 2 Zoom</li>
           </ul>
         </div>
       </div>
@@ -205,7 +260,7 @@
   <!-- Referenzen -->
   <section id="references">
     <div class="container">
-      <h2>Referenzen</h2>
+      <h2 data-de="Referenzen" data-en="References">Referenzen</h2>
 
       <div class="spacer" aria-hidden="true"></div>
 
@@ -217,8 +272,8 @@
   <!-- Kontakt -->
   <section id="contact">
     <div class="container">
-      <h2>Kontakt</h2>
-      <p>Bereit für Ihr Projekt? Kontaktieren Sie mich für ein individuelles Angebot!</p>
+      <h2 data-de="Kontakt" data-en="Contact">Kontakt</h2>
+      <p data-de="Bereit für Ihr Projekt? Kontaktieren Sie mich für ein individuelles Angebot!" data-en="Ready for your project? Contact me for a custom quote!">Bereit für Ihr Projekt? Kontaktieren Sie mich für ein individuelles Angebot!</p>
 
       <div class="spacer" aria-hidden="true"></div>
 
@@ -229,7 +284,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Lukas Kordwig – Freier Tonmeister</p>
+    <p data-de="&copy; 2026 Lukas Kordwig – Freier Tonmeister" data-en="&copy; 2026 Lukas Kordwig – Freelance Sound Engineer">&copy; 2026 Lukas Kordwig – Freier Tonmeister</p>
     <p>Maxplatz 28, 90403 Nürnberg</p>
   </footer>
 
@@ -267,6 +322,29 @@
         const aboutRect = about.getBoundingClientRect();
         if(aboutRect.top <= window.innerHeight * 0.65) bg.classList.add('blurred');
       }, { once: true });
+    })();
+
+    // Language toggle functionality
+    (function(){
+      const langToggle = document.getElementById('langToggle');
+      let currentLang = localStorage.getItem('language') || 'de';
+
+      // Set initial language on page load
+      setLanguage(currentLang);
+
+      langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'de' ? 'en' : 'de';
+        localStorage.setItem('language', currentLang);
+        setLanguage(currentLang);
+      });
+
+      function setLanguage(lang) {
+        document.querySelectorAll('[data-de][data-en]').forEach(element => {
+          element.textContent = element.getAttribute(`data-${lang}`);
+        });
+        // Update button flag
+        langToggle.textContent = lang === 'de' ? '🇬🇧' : '🇩🇪';
+      }
     })();
   </script>
 
