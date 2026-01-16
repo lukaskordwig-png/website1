@@ -70,6 +70,9 @@
     #about, #services, #drone, #equipment, #contact { text-align: center; }
     #references { text-align: center; }
 
+    /* Kontakt-Bereich: scroll-snap-stop never, damit Footer sichtbar bleibt */
+    #contact { scroll-snap-stop: never; height: auto; min-height: 80vh; }
+
     /* Typografie */
     #hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
     #hero p { font-size: 1.5rem; max-width: 700px; margin: 0 auto; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
@@ -83,13 +86,13 @@
     .equipment-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 4rem; }
     .equipment-block { flex: 1 1 250px; margin-top: 0; transition: transform 0.3s; }
     .equipment-block:nth-child(1) { transform: translateY(0px); }
-    .equipment-block:nth-child(2) { transform: translateY(20px); }
-    .equipment-block:nth-child(3) { transform: translateY(10px); }
+    .equipment-block:nth-child(2) { transform: translateY(0px); }
+    .equipment-block:nth-child(3) { transform: translateY(0px); }
     .equipment-block h3 { margin-bottom: 1rem; font-size: 1.2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
     .equipment-block ul { list-style: none; padding-left: 0; line-height: 1.5; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
 
     /* Footer */
-    footer { background-color: rgba(0,0,0,0.35); text-align: center; padding: 1rem; font-size: 0.9rem; color: #fff; }
+    footer { background-color: rgba(0,0,0,0.35); text-align: center; padding: 1rem; font-size: 0.9rem; color: #fff; scroll-snap-align: none; scroll-snap-stop: avoid; }
 
     /* Link color: white */
     a, a:link, a:visited {
@@ -144,6 +147,62 @@
       transform: scale(0.95);
     }
 
+    /* WhatsApp Link: unter der Länderfahne */
+    .whatsapp-link {
+      position: fixed;
+      top: 4rem;
+      right: 1rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 4;
+      transition: all 0.3s ease;
+      pointer-events: all;
+    }
+    .whatsapp-icon {
+      width: 32px;
+      height: 32px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .whatsapp-link:hover .whatsapp-icon {
+      transform: scale(1.15);
+    }
+    .whatsapp-link:active .whatsapp-icon {
+      transform: scale(0.95);
+    }
+
+    /* Phone Link: unter dem WhatsApp-Icon */
+    .phone-link {
+      position: fixed;
+      top: 7rem;
+      right: 1rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 4;
+      transition: all 0.3s ease;
+      pointer-events: all;
+    }
+    .phone-icon {
+      width: 32px;
+      height: 32px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .phone-link:hover .phone-icon {
+      transform: scale(1.15);
+    }
+    .phone-link:active .phone-icon {
+      transform: scale(0.95);
+    }
+
     @media (max-width: 768px) {
       #hero h1 { font-size: 2.2rem; }
       #hero p { font-size: 1.2rem; }
@@ -162,6 +221,26 @@
         right: 0.6rem;
         font-size: 1.3rem;
       }
+      .whatsapp-link {
+        width: 45px;
+        height: 45px;
+        top: 3.2rem;
+        right: 0.6rem;
+      }
+      .whatsapp-icon {
+        width: 28px;
+        height: 28px;
+      }
+      .phone-link {
+        width: 45px;
+        height: 45px;
+        top: 6rem;
+        right: 0.6rem;
+      }
+      .phone-icon {
+        width: 28px;
+        height: 28px;
+      }
     }
   </style>
 </head>
@@ -175,6 +254,16 @@
 
     <!-- Language toggle button: oben-rechts, unabhängig vom Blur -->
     <button class="language-toggle" id="langToggle" title="Toggle language">🇬🇧</button>
+
+    <!-- WhatsApp Link: unter der Länderfahne -->
+    <a href="https://wa.me/4915117202550" class="whatsapp-link" target="_blank" rel="noopener" title="WhatsApp">
+      <img src="images/whatsapp-icon-white.png" alt="WhatsApp" class="whatsapp-icon">
+    </a>
+
+    <!-- Phone Link: unter dem WhatsApp-Icon -->
+    <a href="tel:+4915117202550" class="phone-link" title="Anrufen">
+      <img src="images/white call icon.png" alt="Anrufen" class="phone-icon">
+    </a>
 
     <!-- Hero -->
     <section id="hero">
@@ -197,7 +286,7 @@
   <!-- Leistungen -->
   <section id="services">
     <div class="container">
-      <h2 data-de="Leistungen" data-en="Services">Leistungen</h2>
+      <h2 data-de="LEISTUNGEN" data-en="SERVICES">LEISTUNGEN</h2>
       <div class="service-block">
         <h3 data-de="TV, Film & Set-Ton" data-en="TV, Film & Set Audio">TV, Film & Set-Ton</h3>
         <p data-de="Tonaufnahme am Set für TV-, Film-, Werbe- und Imageproduktionen. Saubere Dialoge, O-Ton, zuverlässige Zusammenarbeit mit Regie & Kamera – auch unter Zeitdruck." data-en="Audio recording on set for TV, film, advertising and corporate productions. Clean dialogue, original sound, reliable collaboration with directors & camera teams – even under time pressure.">Tonaufnahme am Set für TV-, Film-, Werbe- und Imageproduktionen. Saubere Dialoge, O-Ton, zuverlässige Zusammenarbeit mit Regie & Kamera – auch unter Zeitdruck.</p>
@@ -216,7 +305,7 @@
   <!-- Drohne -->
   <section id="drone">
     <div class="container">
-      <h2 data-de="Drohnenaufnahmen" data-en="Drone Footage">Drohnenaufnahmen</h2>
+      <h2 data-de="DROHNENAUFNAHMEN" data-en="DRONE FOOTAGE">DROHNENAUFNAHMEN</h2>
       <p data-de="Professionelle Luftaufnahmen für Film-, Werbe- und Imageproduktionen. Alle erforderlichen Drohnenführerscheine vorhanden – sicherer und kreativer Einsatz." data-en="Professional aerial footage for film, advertising and corporate productions. All required drone licenses in place – safe and creative deployment.">Professionelle Luftaufnahmen für Film-, Werbe- und Imageproduktionen. Alle erforderlichen Drohnenführerscheine vorhanden – sicherer und kreativer Einsatz.</p>
     </div>
   </section>
@@ -224,7 +313,7 @@
   <!-- Equipment -->
   <section id="equipment">
     <div class="container">
-      <h2 data-de="Equipment" data-en="Equipment">Equipment</h2>
+      <h2 data-de="EQUIPMENT" data-en="EQUIPMENT">EQUIPMENT</h2>
       <div class="equipment-grid">
         <div class="equipment-block">
           <h3 data-de="Mikrofone" data-en="Microphones">Mikrofone</h3>
@@ -260,7 +349,7 @@
   <!-- Referenzen -->
   <section id="references">
     <div class="container">
-      <h2 data-de="Referenzen" data-en="References">Referenzen</h2>
+      <h2 data-de="REFERENZEN" data-en="REFERENCES">REFERENZEN</h2>
 
       <div class="spacer" aria-hidden="true"></div>
 
@@ -272,20 +361,29 @@
   <!-- Kontakt -->
   <section id="contact">
     <div class="container">
-      <h2 data-de="Kontakt" data-en="Contact">Kontakt</h2>
+      <h2 data-de="KONTAKT" data-en="CONTACT">KONTAKT</h2>
       <p data-de="Bereit für Ihr Projekt? Kontaktieren Sie mich für ein individuelles Angebot!" data-en="Ready for your project? Contact me for a custom quote!">Bereit für Ihr Projekt? Kontaktieren Sie mich für ein individuelles Angebot!</p>
 
       <div class="spacer" aria-hidden="true"></div>
 
-      <p>[e-mail] <a href="mailto:lukaskordwig@gmx.de">lukaskordwig@gmx.de</a></p>
-      <p>[Telefon] <a href="tel:+4915117202550">+49 (0) 1511 7202550</a></p>
+      <div style="display: inline-block; text-align: left;">
+        <p><a href="mailto:lukaskordwig@gmx.de">lukaskordwig@gmx.de</a></p>
+        <p><a href="tel:+4915117202550">+49 (0) 1511 7202550</a></p>
+        
+        <div class="spacer" aria-hidden="true"></div>
+        
+        <p>Lukas Kordwig</p>
+        <p>Maxplatz 28</p>
+        <p data-de="90403 Nürnberg" data-en="90403 Nuremberg">90403 Nürnberg</p>
+        <p data-de="Deutschland" data-en="Germany">Deutschland</p>
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
     <p data-de="&copy; 2026 Lukas Kordwig – Freier Tonmeister" data-en="&copy; 2026 Lukas Kordwig – Freelance Sound Engineer">&copy; 2026 Lukas Kordwig – Freier Tonmeister</p>
-    <p>Maxplatz 28, 90403 Nürnberg</p>
+    <p data-de="Steuernummer: 238/239/20040" data-en="Tax Number: 238/239/20040">Steuernummer: 238/239/20040</p>
   </footer>
 
   <!-- Script: blur background once hero leaves view (ab Abschnitt "Über mich") -->
