@@ -3,12 +3,12 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.lukaskordwig.de/</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2025-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://www.lukaskordwig.de/images/20250721_MD_4000px-80.jpg</image:loc>
-      <image:caption>Lukas Kordwig - Tonmeister Nürnberg</image:caption>
+      <image:title>Lukas Kordwig - Tonmeister Nürnberg</image:title>
     </image:image>
   </url>
 </urlset>
