@@ -1,0 +1,11 @@
+# robots.txt für lukaskordwig.de
+# Ermöglicht allen Suchmaschinen das vollständige Crawlen der Website
+
+User-agent: *
+Allow: /
+
+# Sitemap-Verweis für Suchmaschinen
+Sitemap: https://www.lukaskordwig.de/sitemap.xml
+
+# Crawl-Verzögerung für bessere Server-Performance (optional)
+Crawl-delay: 1

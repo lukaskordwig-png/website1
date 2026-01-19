@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <title>Impressum – Lukas Kordwig</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', Arial, sans-serif; 
+      color: #fff; 
+      background-color: #000;
+      line-height: 1.6;
+    }
+    .bg-image {
+      position: fixed;
+      inset: 0;
+      background-image: url('images/20250721_MD_4000px-80.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: -2;
+      filter: blur(8px) saturate(0.95) contrast(0.9) brightness(0.8);
+      transform: scale(1.03);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.35);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    p {
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+    a:hover {
+      opacity: 0.8;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .back-link:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      opacity: 1;
+    }
+    .language-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 50px;
+      height: 50px;
+      background-color: transparent;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      z-index: 4;
+      transition: all 0.3s ease;
+    }
+    .language-toggle:hover {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .container { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-image" aria-hidden="true"></div>
+  
+  <button class="language-toggle" id="langToggle" title="Toggle language">🇬🇧</button>
+
+  <div class="container">
+    <h1 data-de="Impressum" data-en="Legal Notice">Impressum</h1>
+    
+    <h2 data-de="Angaben gemäß § 5 TMG" data-en="Information according to § 5 TMG">Angaben gemäß § 5 TMG</h2>
+    <p>
+      Lukas Kordwig<br>
+      Maxplatz 28<br>
+      <span data-de="90403 Nürnberg" data-en="90403 Nuremberg">90403 Nürnberg</span><br>
+      <span data-de="Deutschland" data-en="Germany">Deutschland</span>
+    </p>
+
+    <h2 data-de="Kontakt" data-en="Contact">Kontakt</h2>
+    <p>
+      <span data-de="Telefon:" data-en="Phone:">Telefon:</span> <a href="tel:+4915117202550">+49 (0) 1511 7202550</a><br>
+      E-Mail: <a href="mailto:lukaskordwig@gmx.de">lukaskordwig@gmx.de</a>
+    </p>
+
+    <h2 data-de="Steuerliche Angaben" data-en="Tax Information">Steuerliche Angaben</h2>
+    <p>
+      <span data-de="Steuernummer:" data-en="Tax Number:">Steuernummer:</span> 238/239/20040
+    </p>
+
+    <h2 data-de="Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV" data-en="Responsible for content according to § 18 para. 2 MStV">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>
+      Lukas Kordwig<br>
+      Maxplatz 28<br>
+      <span data-de="90403 Nürnberg" data-en="90403 Nuremberg">90403 Nürnberg</span>
+    </p>
+
+    <h2 data-de="Haftungsausschluss" data-en="Disclaimer">Haftungsausschluss</h2>
+    
+    <h3 data-de="Haftung für Inhalte" data-en="Liability for content">Haftung für Inhalte</h3>
+    <p data-de="Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen." data-en="The content of our pages has been created with the utmost care. However, we cannot guarantee the accuracy, completeness and timeliness of the content. As a service provider, we are responsible for our own content on these pages in accordance with § 7 para.1 TMG under general law. According to §§ 8 to 10 TMG, however, we as a service provider are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.">Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+
+    <h3 data-de="Haftung für Links" data-en="Liability for links">Haftung für Links</h3>
+    <p data-de="Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich." data-en="Our website contains links to external third-party websites over whose content we have no control. Therefore, we cannot accept any liability for this external content. The respective provider or operator of the linked pages is always responsible for the content of the linked pages.">Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
+
+    <a href="index.html" class="back-link" data-de="← Zurück zur Startseite" data-en="← Back to Homepage">← Zurück zur Startseite</a>
+  </div>
+
+  <script>
+    (function(){
+      const langToggle = document.getElementById('langToggle');
+      let currentLang = localStorage.getItem('language') || 'de';
+
+      setLanguage(currentLang);
+
+      langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'de' ? 'en' : 'de';
+        localStorage.setItem('language', currentLang);
+        setLanguage(currentLang);
+      });
+
+      function setLanguage(lang) {
+        document.querySelectorAll('[data-de][data-en]').forEach(element => {
+          element.textContent = element.getAttribute(`data-${lang}`);
+        });
+        langToggle.textContent = lang === 'de' ? '🇬🇧' : '🇩🇪';
+      }
+    })();
+  </script>
+</body>
+</html>
